@@ -1,60 +1,55 @@
 package com.farmfood.rabbi;
+import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomGrid extends BaseAdapter{
-    private Context mContext;
-    private final String[] web;
-    private final int[] Imageid;
+import com.squareup.picasso.Picasso;
 
-    public CustomGrid(Context c,String[] web,int[] Imageid ) {
-        mContext = c;
-        this.Imageid = Imageid;
-        this.web = web;
+import java.util.List;
+
+public class CustomGrid extends ArrayAdapter<DataInput> {
+    private Activity context;
+    private List<DataInput> userlist;
+
+    public CustomGrid(Activity context, List<DataInput> userlist){
+        super(context,R.layout.grid_single, userlist);
+        this.context = context;
+        this.userlist=userlist;
     }
 
+
+    @NonNull
     @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return web.length;
-    }
+    public View getView(int position, View convertView,  ViewGroup parent)
+    {
+        LayoutInflater inflater = context.getLayoutInflater();
+        View listviewitem = inflater.inflate(R.layout.grid_single,null,true);
+        CardView cardView=(CardView)listviewitem.findViewById(R.id.cardv);
+        cardView.setRadius(10);
+        cardView.setCardElevation(10);
+        cardView.setContentPadding(5,5,5,5);
+        TextView textnema = (TextView) listviewitem.findViewById(R.id.grid_text);
+        TextView textdesc = (TextView) listviewitem.findViewById(R.id.grid_descrip);
+        TextView textprice=(TextView) listviewitem.findViewById(R.id.pricetext);
+        ImageView imagev=(ImageView) listviewitem.findViewById(R.id.imgeload);
+        DataInput datas=userlist.get(position);
+        textnema.setText(datas.getUsername());
+        textdesc.setText(datas.getUserdescription());
+        textprice.setText(datas.getPrice());
+        Picasso.with(context)
+                .load(datas.getMimageUrl())
+                .fit()
+                .centerCrop()
+                .into(imagev);
 
-    @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
-        View grid;
-        LayoutInflater inflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if (convertView == null) {
-
-            grid = new View(mContext);
-            grid = inflater.inflate(R.layout.grid_single, null);
-            TextView textView = (TextView) grid.findViewById(R.id.grid_text);
-            ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
-            textView.setText(web[position]);
-            imageView.setImageResource(Imageid[position]);
-        } else {
-            grid = (View) convertView;
-        }
-
-        return grid;
+        return listviewitem;
     }
 }
