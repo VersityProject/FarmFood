@@ -33,13 +33,14 @@ public class CustomGrid extends ArrayAdapter<DataInput> {
         LayoutInflater inflater = context.getLayoutInflater();
         View listviewitem = inflater.inflate(R.layout.grid_single,null,true);
         CardView cardView=(CardView)listviewitem.findViewById(R.id.cardv);
-        cardView.setRadius(10);
-        cardView.setCardElevation(10);
+        cardView.setRadius(30);
+        cardView.setCardElevation(30);
         cardView.setContentPadding(5,5,5,5);
         TextView textnema = (TextView) listviewitem.findViewById(R.id.grid_text);
         TextView textdesc = (TextView) listviewitem.findViewById(R.id.grid_descrip);
         TextView textprice=(TextView) listviewitem.findViewById(R.id.pricetext);
         ImageView imagev=(ImageView) listviewitem.findViewById(R.id.imgeload);
+
         DataInput datas=userlist.get(position);
         textnema.setText(datas.getUsername());
         textdesc.setText(datas.getUserdescription());
@@ -47,7 +48,9 @@ public class CustomGrid extends ArrayAdapter<DataInput> {
         Picasso.with(context)
                 .load(datas.getMimageUrl())
                 .fit()
+                .placeholder(R.drawable.ic_launcher_background)
                 .centerCrop()
+                .noFade()
                 .into(imagev);
 
         return listviewitem;

@@ -13,6 +13,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +36,7 @@ public class DataInputActivity extends AppCompatActivity {
    private DatabaseReference databaseUser;
    private StorageReference mStorageref;
    private ImageView imgv;
+   private ProgressBar mpro;
 
     private static final int PICK_IMAGE_REQUEST=1;
     private Uri mImageUri;
@@ -44,6 +46,9 @@ public class DataInputActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_input);
+
+        mpro= (ProgressBar) findViewById(R.id.mprogress);
+        mpro.setVisibility(View.INVISIBLE);
 
         databaseUser =FirebaseDatabase.getInstance().getReference("users");
         mStorageref =FirebaseStorage.getInstance().getReference("users");
@@ -65,9 +70,11 @@ public class DataInputActivity extends AppCompatActivity {
                 {
                     Toast.makeText(DataInputActivity.this,"Upload in Progress Please Wait"
                             ,Toast.LENGTH_LONG).show();
+                    mpro.setVisibility(View.VISIBLE);
                 }
                 else {
                     addingdata();
+                    mpro.setVisibility(View.INVISIBLE);
                 }
 
 
@@ -108,8 +115,11 @@ public class DataInputActivity extends AppCompatActivity {
                             DataInput datas= new DataInput(id,name,description,price,taskSnapshot.getDownloadUrl().toString());
                             databaseUser.child(id).setValue(datas);
 
-                            Toast.makeText(DataInputActivity.this,"User Added",Toast.LENGTH_LONG).show();
-
+                            Toast.makeText(DataInputActivity.this," Added Successfully",Toast.LENGTH_LONG).show();
+                            mpro.setVisibility(View.INVISIBLE);
+                            Intent ib = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(ib);
+                            finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -119,6 +129,7 @@ public class DataInputActivity extends AppCompatActivity {
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    mpro.setVisibility(View.VISIBLE);
 
                 }
             });
@@ -126,6 +137,7 @@ public class DataInputActivity extends AppCompatActivity {
 
         }else {
             Toast.makeText(this,"Fill The Form",Toast.LENGTH_LONG).show();
+            mpro.setVisibility(View.INVISIBLE);
         }
     }
 

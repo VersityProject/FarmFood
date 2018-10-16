@@ -1,29 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pink"
     android:orientation="vertical"
+    android:background="@color/gray"
     tools:context=".MainActivity">
 
-   <Button
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:id="@+id/addatabtn"
-       android:text="ADD DATA"/>
+
+
+
     <GridView
         android:id="@+id/listv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="15dp"
         android:columnWidth="90dp"
         android:numColumns="2"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
+        android:verticalSpacing="20dp"
+        android:horizontalSpacing="15dp"
+        android:scaleType="centerInside"
         android:gravity="center"
         android:stretchMode="columnWidth"
         />
-
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addatabtn"
+        android:textStyle="bold"
+        android:background="@color/yellow"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:text="আপনার পণ্য যোগ করুন"/>
 </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mprogressbar"/>
+    </LinearLayout>
+
+</RelativeLayout>
